@@ -132,7 +132,7 @@ const celsiusToFahrenheit = function (celsius) {
   const fahrenheit = celsius * 1.8 + 32;
   const msg = `${ celsius }°C is ${ fahrenheit }°F`;
   console.log( msg );
-  return msg;
+  return fahrenheit;
 }
 
 celsiusToFahrenheit( 17 );
