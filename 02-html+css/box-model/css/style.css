@@ -1,0 +1,26 @@
+/* In very common usage: enable box-sizing: border-box for everything:
+* {
+  box-sizing: border-box;
+}
+*/
+
+body {
+  background-color: yellow;
+}
+
+/* Does not include padding and border, so your box may be larger than you expect */
+.old {
+  width: 300px;
+  height: 300px;
+  border: 1px solid black;
+  padding: 50px;
+}
+
+/* Includes border and padding within your box so it's as many pixels as you say */
+.new {
+  width: 300px;
+  height: 300px;
+  border: 1px solid black;
+  padding: 50px;
+  box-sizing: border-box;
+}
