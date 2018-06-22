@@ -11,13 +11,18 @@ const thumbnailify = function ($link) {
     event.preventDefault(); // Do not follow the link.
     const embedURL = youtube.generateEmbedUrl(videoURL);
     const embedCode = `<iframe width="560" height="315" src="${ embedURL }" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-    $('#video').hide().html( embedCode ).fadeIn( 2000 );
+    $('#video').hide().html( embedCode ).fadeIn( 200 );
   });
 }
 
-const $links = $('a');
+$(document).ready(function () {
+  const $links = $('a');
 
-for (let i = 0; i < $links.length; i++) {
-  const $a = $( $links[i] );
-  thumbnailify( $a );
-}
+  for (let i = 0; i < $links.length; i++) {
+    const $a = $( $links[i] );
+    thumbnailify( $a );
+  }
+
+  $('h2').funText(100, 'reverseCandy');
+  $('a').funText(50, 'rainbow');
+});
