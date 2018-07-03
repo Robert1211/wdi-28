@@ -6,7 +6,6 @@ end
 
 def add(a, b)
   a + b # Implicit return: return a + b
-  p "Thank you for using add()"
 end
 
 binding.pry
