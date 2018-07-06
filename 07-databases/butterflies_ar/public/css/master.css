@@ -11,8 +11,16 @@ nav {
   text-align: right;
 }
 
-nav a {
+nav a:visited {
   color: white;
+}
+
+a {
+  color: white;
+}
+
+a:visited {
+  color: #e0e0e0;
 }
 
 .feature {
