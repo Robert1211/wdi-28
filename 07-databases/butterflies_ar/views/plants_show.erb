@@ -1,5 +1,18 @@
 <h1><%= @plant.name %></h1>
 
+<% unless @plant.butterflies.empty? %>
+  <h2>Associated Butterflies:</h2>
+  <ul>
+    <% @plant.butterflies.each do |butterfly| %>
+      <li>
+        <a href="/butterflies/<%= butterfly.id %>">
+          <%= butterfly.name %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
 <% unless @plant.image.nil? %>
   <img class="feature" src="<%= @plant.image %>" />
 <% end %>

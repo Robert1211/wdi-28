@@ -8,5 +8,14 @@
   <label>Image:</label>
   <input type="url" name="image" placeholder="http://...">
 
+  <label>Larval plant:</label>
+  <select name="plant_id">
+    <!-- Let the user choose an associated plant from all the plants in db -->
+    <option></option>
+    <% Plant.all.each do |plant| %>
+      <option value="<%= plant.id %>"><%= plant.name %></option>
+    <% end %>
+  </select>
+
   <button>Create</button>
 </form>
