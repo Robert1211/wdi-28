@@ -52,11 +52,11 @@ get '/butterflies/:id/delete' do
 end
 
 def query_db(sql_statement)
+  puts sql_statement # Optional bonus feature for debugging
+
   db = SQLite3::Database.new 'database.sqlite3'
   db.results_as_hash = true
   results = db.execute sql_statement
-
-  puts sql_statement # Optional bonus feature for debugging
 
   db.close # Prevent leaving too many connections open
   results # Implicitly returned
