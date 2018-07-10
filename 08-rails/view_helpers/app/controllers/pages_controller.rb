@@ -1,13 +1,11 @@
 class PagesController < ApplicationController
   def home
-    render :home
   end
 
   def numbers
     @amount = 234.034348
     @large_number = 4240342329528
     @phone = 2125551212
-    render :numbers
   end
 
   def text
@@ -18,7 +16,6 @@ class PagesController < ApplicationController
   end
 
   def assets
-
   end
 
   def url
