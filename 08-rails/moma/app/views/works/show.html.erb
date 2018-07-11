@@ -1,2 +1,10 @@
-<h1>Works#show</h1>
-<p>Find me in app/views/works/show.html.erb</p>
+<h1><%= @work.title %></h1>
+
+<%= image_tag @work.image, :alt => @work.title, :class => 'feature' %>
+
+<ul>
+  <li><%= @work.title %></li>
+  <li>Year: <%= @work.year %></li>
+  <li>Medium: <%= @work.medium %></li>
+  <li>Style: <%= @work.style %></li>
+</ul>
