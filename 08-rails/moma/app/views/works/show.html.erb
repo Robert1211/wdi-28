@@ -4,7 +4,15 @@
 
 <ul>
   <li><%= @work.title %></li>
+  <% if @work.artist.present? %>
+    <li>Artist: <%= link_to @work.artist.name, @work.artist %></li>
+  <% end %>
   <li>Year: <%= @work.year %></li>
   <li>Medium: <%= @work.medium %></li>
   <li>Style: <%= @work.style %></li>
 </ul>
+
+<div class="controls">
+  <%= link_to 'Edit work', edit_work_path(@work) %>
+  <%= link_to 'Delete work', work_path(@work), :method => 'delete', :data => { :confirm => 'Are you sure?' } %>
+</div>

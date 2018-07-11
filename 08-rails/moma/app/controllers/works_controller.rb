@@ -17,11 +17,24 @@ class WorksController < ApplicationController
   end
 
   def edit
+    @work = Work.find params[:id]
+  end
+
+  def update
+    work = Work.find params[:id]
+    work.update work_params
+    redirect_to work
+  end
+
+  def destroy
+    work = Work.find params[:id]
+    work.destroy
+    redirect_to works_path
   end
 
   private
   def work_params
     # Whitelist of permitted params
-    params.require(:work).permit(:title, :year, :medium, :style, :image)
+    params.require(:work).permit(:title, :year, :medium, :style, :image, :artist_id)
   end
 end
