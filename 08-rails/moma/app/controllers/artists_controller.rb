@@ -1,6 +1,6 @@
 class ArtistsController < ApplicationController
   def index
-    @artists = Artist.all
+    @artists = Artist.all.order(:created_at)
   end
 
   def show
@@ -8,6 +8,13 @@ class ArtistsController < ApplicationController
   end
 
   def edit
+    @artist = Artist.find params[:id]
+  end
+
+  def update
+    artist = Artist.find params[:id]
+    artist.update artist_params
+    redirect_to artist
   end
 
   def new
@@ -17,6 +24,12 @@ class ArtistsController < ApplicationController
   def create
     artist = Artist.create artist_params
     redirect_to artist # GET the show page
+  end
+
+  def destroy
+    artist = Artist.find params[:id]
+    artist.destroy
+    redirect_to artists_path
   end
 
   # Strong params: create a whitelist of permitted parameters

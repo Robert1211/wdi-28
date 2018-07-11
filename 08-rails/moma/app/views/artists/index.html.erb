@@ -1,11 +1,13 @@
 <h1>All Artists</h1>
 
 <% @artists.each do |artist| %>
-  <%= image_tag artist.image, :alt => artist.name, :class => 'thumb' %>
+  <%= image_tag artist.image, :alt => artist.name, :class => 'thumb' if artist.image.present? %>
   <ul>
     <li><%= link_to artist.name, artist %></li>
     <li><%= artist.nationality %></li>
-    <li><%= artist.dob.strftime '%A, %B %e, %Y' %></li>
+    <% if artist.dob.present? %>
+      <li><%= artist.dob.strftime '%A, %B %e, %Y' %></li>
+    <% end %>
     <li><%= artist.period %></li>
   </ul>
 <% end %>
