@@ -6,7 +6,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new user_params
     if @user.save
-      redirect_to '/' # Redirect to home if the account is valid
+      session[:user_id] = @user.id
+      redirect_to root_path # Redirect to home if the account is valid
     else
       render :new # Let them retry the form again
     end
