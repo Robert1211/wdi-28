@@ -11,8 +11,10 @@ const showImages = function (results) {
         '_',
         photo.secret,
         '_q.jpg' // Change 'q' to something else for different sizes
-      ].join('');
+      ].join(''); // Return a string by join()ing the array elements.
   };
+
+  console.log( results );
 
   results.photos.photo.forEach(function (photo) {
     const thumbnailURL = generateURL(photo);
@@ -20,8 +22,6 @@ const showImages = function (results) {
     $img.appendTo('#images');
   });
 };
-
-
 
 const searchFlickr = function (term) {
   console.log('Searching Flickr for', term);
@@ -36,3 +36,24 @@ const searchFlickr = function (term) {
     format: 'json'
   }).done(showImages);
 };
+
+$(document).ready(function () {
+  $('#search').on('submit', function (event) {
+    event.preventDefault(); // Do not submit this form; let's stay on this page.
+    const query = $('#query').val();
+    searchFlickr(query);
+  });
+
+  // Very twitchy
+  $(window).on('scroll', function () {
+    // scrollBottom is the number of pixels in the document below the bottom of the window.
+    const scrollBottom = $(document).height() - ( $(window).scrollTop() + $(window).height() );
+    // console.log( $(document).height(), $(window).height(), $(window).scrollTop(), scrollBottom );
+
+    if (scrollBottom < 500) {
+      const query = $('#query').val();
+      searchFlickr(query);
+    }
+
+  });
+});
