@@ -1,5 +1,7 @@
+// Iterates through photo results from Flickr's API and displays them
+// as images on the page.
 const showImages = function (results) {
-  // Nested or helper function
+  // Nested or helper function: returns the url for a given photo object.
   const generateURL = function (photo) {
       return [
         'http://farm',
@@ -14,7 +16,7 @@ const showImages = function (results) {
       ].join(''); // Return a string by join()ing the array elements.
   };
 
-  console.log( results );
+  console.log( results ); // For debugging.
 
   results.photos.photo.forEach(function (photo) {
     const thumbnailURL = generateURL(photo);
@@ -28,6 +30,8 @@ const searchFlickr = function (term) {
 
   const flickrURL = 'https://api.flickr.com/services/rest?jsoncallback=?';
 
+  // This isn't really an AJAX request, it's JSONP. But jQuery lets us
+  // treat it like AJAX so you can ignore that minor detail.
   $.getJSON(flickrURL, {
     // Data for the query string (these will be added to the URL)
     method: 'flickr.photos.search',
@@ -44,15 +48,18 @@ $(document).ready(function () {
     searchFlickr(query);
   });
 
-  // Very twitchy
+  // This event fires very frequently, faster than we need.
   $(window).on('scroll', function () {
     // scrollBottom is the number of pixels in the document below the bottom of the window.
-    const scrollBottom = $(document).height() - ( $(window).scrollTop() + $(window).height() );
-    // console.log( $(document).height(), $(window).height(), $(window).scrollTop(), scrollBottom );
+    const scrollBottom = $(document).height() -
+                         ( $(window).scrollTop() + $(window).height() );
 
+    // Request more results from Flickr if we're near the bottom of the document.
     if (scrollBottom < 500) {
       const query = $('#query').val();
       searchFlickr(query);
+      // TODO: Don't request more results until we've displayed
+      // the previous results.
     }
 
   });
