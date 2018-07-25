@@ -1,6 +1,5 @@
 const state = {
   page: 1,
-  requestInProgress: false,
   lastPage: false
 };
 
@@ -32,11 +31,9 @@ const showImages = function (results) {
 };
 
 const searchFlickr = function (term) {
-  if (state.requestInProgress || state.lastPage) {
+  if (state.lastPage) {
     return;
   }
-
-  state.requestInProgress = true;
 
   console.log('Searching Flickr for', term);
 
@@ -51,9 +48,7 @@ const searchFlickr = function (term) {
     text: term,
     format: 'json',
     page: state.page++
-  }).done(showImages).done(function () {
-    state.requestInProgress = false;
-  }).done(function (results) {
+  }).done(showImages).done(function (results) {
     if (results.photos.page >= results.photos.pages) {
       state.lastPage = true;
     }
@@ -73,6 +68,7 @@ $(document).ready(function () {
   });
 
   // This event fires very frequently, faster than we need.
+  const throttledSearchFlickr = _.throttle( searchFlickr, 6000 , { trailing: false } );
   $(window).on('scroll', function () {
     // scrollBottom is the number of pixels in the document below the bottom of the window.
     const scrollBottom = $(document).height() -
@@ -81,7 +77,7 @@ $(document).ready(function () {
     // Request more results from Flickr if we're near the bottom of the document.
     if (scrollBottom < 1000) { // Adjust this variable to suit your taste
       const query = $('#query').val();
-      searchFlickr(query);
+      throttledSearchFlickr(query);
     }
 
   });
