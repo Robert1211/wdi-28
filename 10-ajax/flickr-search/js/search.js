@@ -1,3 +1,9 @@
+const state = {
+  page: 1,
+  requestInProgress: false,
+  lastPage: false
+};
+
 // Iterates through photo results from Flickr's API and displays them
 // as images on the page.
 const showImages = function (results) {
@@ -26,6 +32,12 @@ const showImages = function (results) {
 };
 
 const searchFlickr = function (term) {
+  if (state.requestInProgress || state.lastPage) {
+    return;
+  }
+
+  state.requestInProgress = true;
+
   console.log('Searching Flickr for', term);
 
   const flickrURL = 'https://api.flickr.com/services/rest?jsoncallback=?';
@@ -37,15 +49,27 @@ const searchFlickr = function (term) {
     method: 'flickr.photos.search',
     api_key: '2f5ac274ecfac5a455f38745704ad084', // not a secret key
     text: term,
-    format: 'json'
-  }).done(showImages);
+    format: 'json',
+    page: state.page++
+  }).done(showImages).done(function () {
+    state.requestInProgress = false;
+  }).done(function (results) {
+    if (results.photos.page >= results.photos.pages) {
+      state.lastPage = true;
+    }
+  });
+
+
 };
 
 $(document).ready(function () {
   $('#search').on('submit', function (event) {
     event.preventDefault(); // Do not submit this form; let's stay on this page.
     const query = $('#query').val();
-    searchFlickr(query);
+    state.page = 1;
+    state.lastPage = false;
+    searchFlickr(query); // Async
+    $('#images').empty();
   });
 
   // This event fires very frequently, faster than we need.
@@ -55,11 +79,9 @@ $(document).ready(function () {
                          ( $(window).scrollTop() + $(window).height() );
 
     // Request more results from Flickr if we're near the bottom of the document.
-    if (scrollBottom < 500) {
+    if (scrollBottom < 1000) { // Adjust this variable to suit your taste
       const query = $('#query').val();
       searchFlickr(query);
-      // TODO: Don't request more results until we've displayed
-      // the previous results.
     }
 
   });
