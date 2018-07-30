@@ -5,14 +5,14 @@ class FlickrSearch extends Component {
   constructor () {
     super();
     this.state = {
-      images: []
+      images: [] // Whenever this changes, <Gallery /> will re-render
     }
     this.fetchImages = this.fetchImages.bind(this);
   }
 
   // This is kinda like an event handler but it's not being called by React.
   fetchImages(q) {
-    console.log('searching flickr for', q);
+    console.log('Searching flickr for', q);
 
     const flickrURL = 'https://api.flickr.com/services/rest?jsoncallback=?';
     const flickrParams = {
@@ -45,10 +45,12 @@ class FlickrSearch extends Component {
   }
 
   render() {
-    console.log('<FlickrSearch /> render');
     return (
       <div>
         <h2>Flickr Search</h2>
+        {/* The parent can't interact with the child's state directly,
+            but it CAN pass in a callback for the child to call
+            which can do whatever the parent needs with the child's state */}
         <SearchForm onSubmit={ this.fetchImages }/>
         <Gallery images={ this.state.images }/>
       </div>
@@ -74,10 +76,9 @@ class SearchForm extends Component {
   }
 
   render() {
-    console.log('<SearchForm/> render');
     return (
       <form onSubmit={ this._handleSubmit }>
-        <input type="search" placeholder="Butterfly" required onInput={ this._handleInput }/>
+        <input type="search" placeholder="Butterfly" required onInput={ this._handleInput } />
         <input type="submit" value="Search" />
       </form>
     );
@@ -86,7 +87,6 @@ class SearchForm extends Component {
 
 class Gallery extends Component {
   render() {
-    console.log('<Gallery/> render');
     return (
       <div>
         { this.props.images.map( (url) => <Image url={url} key={url} /> ) }
