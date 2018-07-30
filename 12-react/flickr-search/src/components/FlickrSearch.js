@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import jsonp from 'jsonp-es6';
+import jsonp from 'jsonp-es6'; // for regular AJAX, use "axios" instead.
 
 class FlickrSearch extends Component {
   constructor () {
     super();
     this.state = {
       images: [] // Whenever this changes, <Gallery /> will re-render
-    }
+    };
     this.fetchImages = this.fetchImages.bind(this);
   }
 
@@ -40,7 +40,7 @@ class FlickrSearch extends Component {
     // Ordinarily we would fetch() (native) OR Axios (npm)
     jsonp(flickrURL, flickrParams, {callback: 'jsoncallback'}).then((results) => {
       const images = results.photos.photo.map(generateURL);
-      this.setState({images: images}); // save those images in state
+      this.setState({images}); // same as { images: images }, remember?
     });
   }
 
@@ -71,6 +71,7 @@ class SearchForm extends Component {
   }
 
   _handleSubmit(e) {
+    // We "handle" the submit by calling a parent's onSubmit callback prop.
     e.preventDefault(); // Don't submit, stay on this page
     this.props.onSubmit(this.state.query); // Run the callback provided by the parent with the query.
   }
@@ -91,7 +92,7 @@ class Gallery extends Component {
       <div>
         { this.props.images.map( (url) => <Image url={url} key={url} /> ) }
       </div>
-    )
+    );
   }
 }
 
