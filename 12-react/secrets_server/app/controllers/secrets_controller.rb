@@ -4,7 +4,7 @@ class SecretsController < ApplicationController
   # GET /secrets
   # GET /secrets.json
   def index
-    @secrets = Secret.all
+    @secrets = Secret.order('created_at DESC') # Newest first
   end
 
   # GET /secrets/1
