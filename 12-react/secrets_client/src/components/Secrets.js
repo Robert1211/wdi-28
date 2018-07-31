@@ -64,9 +64,6 @@ class Secrets extends Component {
   }
 
   saveSecret(s) {
-    // const newSecret = { content: s }; // this will come via AJAX later
-    // this.setState( { secrets: [newSecret, ...this.state.secrets] } ); // ... spread operator
-
     axios.post(SERVER_URL, {content: s}).then((results) => {
       // Add the newly created secret to the collection in our state.
       this.setState( {secrets: [results.data, ...this.state.secrets]} );
