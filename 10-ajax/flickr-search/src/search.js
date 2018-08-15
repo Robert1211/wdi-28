@@ -1,36 +1,43 @@
-'use strict';
-
-var state = {
+const state = {
   page: 1,
   lastPage: false
 };
 
 // Iterates through photo results from Flickr's API and displays them
 // as images on the page.
-var showImages = function showImages(results) {
+const showImages = function (results) {
   // Nested or helper function: returns the url for a given photo object.
-  var generateURL = function generateURL(photo) {
-    return ['http://farm', photo.farm, '.static.flickr.com/', photo.server, '/', photo.id, '_', photo.secret, '_q.jpg' // Change 'q' to something else for different sizes
-    ].join(''); // Return a string by join()ing the array elements.
+  const generateURL = function (photo) {
+      return [
+        'http://farm',
+        photo.farm,
+        '.static.flickr.com/',
+        photo.server,
+        '/',
+        photo.id,
+        '_',
+        photo.secret,
+        '_q.jpg' // Change 'q' to something else for different sizes
+      ].join(''); // Return a string by join()ing the array elements.
   };
 
-  console.log('Results:', results); // For debugging.
+  console.log( 'Results:', results ); // For debugging.
 
   results.photos.photo.forEach(function (photo) {
-    var thumbnailURL = generateURL(photo);
-    var $img = $('<img />', { src: thumbnailURL }); // alternatively: .attr('src', thumbnailURL);
+    const thumbnailURL = generateURL(photo);
+    const $img = $('<img />', {src: thumbnailURL}); // alternatively: .attr('src', thumbnailURL);
     $img.appendTo('#images');
   });
 };
 
-var searchFlickr = function searchFlickr(term) {
+const searchFlickr = function (term) {
   if (state.lastPage) {
     return;
   }
 
   console.log('Searching Flickr.com for', term);
 
-  var flickrURL = 'https://api.flickr.com/services/rest?jsoncallback=?';
+  const flickrURL = 'https://api.flickr.com/services/rest?jsoncallback=?';
 
   // This isn't really an AJAX request, it's JSONP. But jQuery lets us
   // treat it like AJAX so you can ignore that minor detail.
@@ -46,12 +53,14 @@ var searchFlickr = function searchFlickr(term) {
       state.lastPage = true;
     }
   });
+
+
 };
 
 $(document).ready(function () {
   $('#search').on('submit', function (event) {
     event.preventDefault(); // Do not submit this form; let's stay on this page.
-    var query = $('#query').val();
+    const query = $('#query').val();
     state.page = 1;
     state.lastPage = false;
     searchFlickr(query); // Async
@@ -59,16 +68,17 @@ $(document).ready(function () {
   });
 
   // This event fires very frequently, faster than we need.
-  var throttledSearchFlickr = _.throttle(searchFlickr, 6000, { trailing: false });
+  const throttledSearchFlickr = _.throttle( searchFlickr, 6000 , { trailing: false } );
   $(window).on('scroll', function () {
     // scrollBottom is the number of pixels in the document below the bottom of the window.
-    var scrollBottom = $(document).height() - ($(window).scrollTop() + $(window).height());
+    const scrollBottom = $(document).height() -
+                         ( $(window).scrollTop() + $(window).height() );
 
     // Request more results from Flickr if we're near the bottom of the document.
-    if (scrollBottom < 1000) {
-      // Adjust this variable to suit your taste
-      var query = $('#query').val();
+    if (scrollBottom < 1000) { // Adjust this variable to suit your taste
+      const query = $('#query').val();
       throttledSearchFlickr(query);
     }
+
   });
 });
