@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue Intro</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+
+  <div id="app">
+    {{ message }}
+  </div>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        message: "Hello World From Vue.js"
+      }
+    });
+  </script>
+
+  <hr>
+
+  <div id="app-2">
+    <span v-bind:title="message">
+      Hover your mouse over me for a few seconds to see the title
+    </span>
+  </div>
+
+  <script>
+    const app2 = new Vue({
+      el: '#app-2',
+      data: {
+        message: "You loaded this page on " + new Date().toLocaleString()
+      }
+    });
+  </script>
+
+  <hr>
+
+  <div id="app-3">
+    <span v-if="seen">You can see this</span>
+  </div>
+
+  <script>
+    const app3 = new Vue({
+      el: '#app-3',
+      data: {
+        seen: true
+      }
+    });
+  </script>
+
+  <hr>
+
+  <div id="app-4">
+    <ol>
+      <li v-for="task in todos">
+        {{ task.text }}
+      </li>
+    </ol>
+  </div>
+
+  <script>
+    const app4 = new Vue({
+      el: '#app-4',
+      data: {
+        todos: [
+          { text: 'Learn Vue.js' },
+          { text: 'Kill all humans' },
+          { text: 'Buy grapefruit' },
+          { text: 'Shower' }
+        ]
+      }
+    });
+  </script>
+
+  <hr>
+
+  <div id="app-5">
+    <p>{{ message }}</p>
+    <button v-on:click="reverseMessage">Reverse message</button>
+  </div>
+
+  <script>
+    const app5 = new Vue({
+      el: '#app-5',
+      data: {
+        message: "This is a message"
+      },
+      methods: {
+        reverseMessage: function () {
+          this.message = this.message.split('').reverse().join('')
+        }
+      }
+    });
+  </script>
+
+  <hr>
+
+  <!-- Two way data binding -->
+  <div id="app-6">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+
+  <script>
+    const app6 = new Vue({
+      el: '#app-6',
+      data: {
+        message: 'Some particular message'
+      }
+    });
+  </script>
+
+  <hr>
+
+  <div id="app-7">
+    <ol>
+      <todo-item
+        v-for="item in groceryList"
+        v-bind:task="item"
+        v-bind:key="item.id">
+      </todo-item>
+    </ol>
+  </div>
+
+  <script>
+    Vue.component('todo-item', {
+      props: ['task'],
+      template: '<li>{{ task.text }}</li>'
+    });
+
+    const app7 = new Vue({
+      el: '#app-7',
+      data: {
+        groceryList: [
+          { id: 0, text: 'Rum ham' },
+          { id: 1, text: 'Beer' },
+          { id: 2, text: 'Cheese' }
+        ]
+      }
+    });
+  </script>
+
+</body>
+</html>
