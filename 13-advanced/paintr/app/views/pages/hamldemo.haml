@@ -1,0 +1,13 @@
+%h1.title.thursday#some_lovely_id Hello World!
+
+%h2.lucky= @number
+
+%div.container
+  %p
+    %span Here is a span inside a paragraph
+  %p Here is a second paragraph
+
+%ul
+  - %w{  Groucho Harpo Chico Zeppo }.each do |brother|
+    %li= brother
+%p HAML knows when to close a block with "end"
