@@ -17,5 +17,13 @@ def fibonacci_recursive(n)
   end
 end
 
+def fib(n, a=1, b=1)
+  if n == 1 || n == 2 # Base case
+    b
+  else
+    fib(n-1, b, a+b) # Recursion
+  end
+end
+
 require 'pry'
 binding.pry
