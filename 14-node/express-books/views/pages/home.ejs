@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Book Search</title>
-  <link rel="stylesheet" href="css/master.css">
-</head>
+<% include ../partials/head %>
 <body>
-
-  <h2>Book Search Coming Soon</h2>
+  <% include ../partials/navigation %>
+  <h2>Book Search</h2>
 
   <form action="/search">
     <label for="title">Book title:</label>
-    <input id="title" type="search" name="title">
+    <input id="title" type="search" name="title" required>
     <button>Search</button>
   </form>
 
