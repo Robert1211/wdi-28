@@ -12,7 +12,9 @@ export default class Profile extends Component {
     Github.getUserInfo(username).then((result) => {
       this.setState({user: result.data});
     });
-    Github.getUserRepos(username);
+    Github.getUserRepos(username).then((result) => {
+      this.setState({repos: result.data});
+    });
   }
 
   render() {
@@ -20,6 +22,7 @@ export default class Profile extends Component {
       <div>
         <h2>Github User Details</h2>
         <UserInfo user={this.state.user} />
+        <Repositories repos={this.state.repos} />
       </div>
     )
   }
@@ -41,6 +44,33 @@ class UserInfo extends Component {
         <p>Following: {following}</p>
         <p>Repos: {public_repos}</p>
         <p>Gists: {public_gists}</p>
+      </div>
+    );
+  }
+}
+
+class Repositories extends Component {
+  render() {
+    if (this.props.repos === null) {
+      return (<div className="info">Loading...</div>);
+    }
+
+    const userRepos = this.props.repos.map((r) => {
+      return (
+        <li>
+          <a href={r.html_url} target="_blank">
+            {r.name}
+          </a>
+        </li>
+      );
+    })
+
+    return (
+      <div className="repos">
+        <h3>User Repositories</h3>
+        <ul>
+          {userRepos}
+        </ul>
       </div>
     );
   }
