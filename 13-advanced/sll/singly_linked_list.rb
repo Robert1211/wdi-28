@@ -1,4 +1,7 @@
 class SinglyLinkedList
+
+  include Enumerable # Kind of like multiple inheritance
+
   class Node
     attr_accessor :value, :next
 
@@ -46,15 +49,25 @@ class SinglyLinkedList
   end
 
   def reverse
-    # return a new SLL with the values from the previous in reverse order
+    reversed_list = SinglyLinkedList.new
+    node = @head
+    while node
+      reversed_list.prepend(node.value)
+      node = node.next
+    end
+    reversed_list
   end
 
   def reverse!
-    # Tricky
+    @head = self.reverse.head
   end
 
   def each
-    # Tricky but very important
+    node = @head
+    while node
+      yield node.value if block_given? # Execute a callback
+      node = node.next
+    end
   end
 
   # Also: .map, .inject
@@ -65,5 +78,3 @@ bros = SinglyLinkedList.new 'Groucho'
 
 require 'pry'
 binding.pry
-
-bros[7]
