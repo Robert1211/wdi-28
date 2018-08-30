@@ -22,7 +22,7 @@ export default (props) => (
         display={"inline-block"}
         fontStyle={"normal"}
       >
-        Bill Murray
+        {props.data.site.siteMetadata.title}
       </g.H3>
     </Link>
     <Link className={linkStyle} to={"/about"}>
@@ -31,3 +31,13 @@ export default (props) => (
       {props.children()}
   </g.Div>
 );
+
+export const query = graphql`
+  query LayoutQuery {
+    site {
+      siteMetadata {
+        title
+      }
+    }
+  }
+`;

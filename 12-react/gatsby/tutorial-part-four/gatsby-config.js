@@ -1,8 +1,15 @@
 module.exports = {
   siteMetadata: {
-    title: 'Nonsense Fake Title'
+    title: 'Different Fake Title'
   },
   plugins: [
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'src',
+        path: `${__dirname}/src/`
+      }
+    },
     'gatsby-plugin-glamor',
     {
       resolve: 'gatsby-plugin-typography',
